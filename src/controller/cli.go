@@ -10,7 +10,7 @@ import (
 func CLI() {
 	fmt.Println("Welcome to Elizabeths-Phaeton, please proceed...\n" +
 		"Elizabeths-Phaeton is a min-distance problem where it requires to find K nearest points to a specific location\n" +
-		"inorder to do so, we use an augmented min-heap which uses map to minimize the deleting process.\n\n" +
+		"inorder to do so, we implement an augmented min-heap which uses map to minimize the deleting process.\n\n" +
 		"inorder to test the algorithms, select an options:\n" +
 		"1) manually input.\n" +
 		"2) randomized input")
