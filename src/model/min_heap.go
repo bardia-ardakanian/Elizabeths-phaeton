@@ -2,7 +2,6 @@ package model
 
 import (
 	"fmt"
-	"std/model/service"
 )
 
 type MinHeap struct {
@@ -17,7 +16,7 @@ func NewMinHeap(source Point, array []Point) MinHeap {
 
 	//init
 	for _, point := range array {
-		var weight = service.Dist(source, point)
+		var weight = Dist(source, point)
 		minHeap.Insert(weight, point)
 	}
 
@@ -52,6 +51,8 @@ func (minHeap *MinHeap) Insert(weight float64, point Point) {
 		var currNode, parentNode = minHeap.GetNodes()[curr], minHeap.GetNodes()[parent]
 		if parentNode.GetWeight() > currNode.GetWeight() {
 			minHeap.swap(currNode, &curr, parentNode, &parent)
+			curr = parent
+			parent = Parent(parent)
 		} else {
 			break
 		}
@@ -59,12 +60,12 @@ func (minHeap *MinHeap) Insert(weight float64, point Point) {
 }
 
 func (minHeap *MinHeap) Heapify(index int) {
-	var left, right, smaller, size = Left(index), Right(index), index, len(minHeap.GetNodes()) - 1
+	var left, right, smaller, size = Left(index), Right(index), index, len(minHeap.GetNodes())
 
 	if left < size && minHeap.GetNodes()[left].GetWeight() < minHeap.GetNodes()[index].GetWeight() {
 		smaller = left
 	}
-	if right < size && minHeap.GetNodes()[right].GetWeight() < minHeap.GetNodes()[index].GetWeight() {
+	if right < size && minHeap.GetNodes()[right].GetWeight() < minHeap.GetNodes()[smaller].GetWeight() {
 		smaller = right
 	}
 
@@ -115,9 +116,6 @@ func (minHeap *MinHeap) swap(currNode Node, curr *int, parentNode Node, parent *
 	minHeap.GetNodes()[*parent] = parentNode
 	minHeap.GetPositions()[parentNode] = *parent
 	minHeap.GetPositions()[currNode] = *curr
-
-	*curr = *parent
-	*parent = Parent(*parent)
 }
 
 func (minHeap *MinHeap) removeIndex(index int) {
